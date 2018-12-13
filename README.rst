@@ -7,7 +7,7 @@ from the BYU Scatterometer Climate Record Pathfinder project:
 http://www.scp.byu.edu/
 
 Many of the routines here are based on the `sirpy` routines
-provided [here](http://www.scp.byu.edu/software/sirpy/)
+provided [here]:http://www.scp.byu.edu/software/sirpy/
 
 ---------------
 
