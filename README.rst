@@ -1,12 +1,16 @@
-Sample Module Repository
-========================
+sirpy2 Repository
+=================
 
-This simple project is an example repo for Python projects.
+Python routines for interacting with SIR formatted files
+from the BYU Scatterometer Climate Record Pathfinder project:
 
-`Learn more <http://www.kennethreitz.org/essays/repository-structure-and-python>`_.
+<http://www.scp.byu.edu/data/Ascat/SIR/Ascat_sir.html>
+
+Many of the routines here are based on the `sirpy` routines
+provided [here](http://www.scp.byu.edu/software/sirpy/)
 
 ---------------
 
-If you want to learn more about ``setup.py`` files, check out `this repository <https://github.com/kennethreitz/setup.py>`_.
+
 
 ✨🍰✨
