@@ -49,7 +49,7 @@ def parseFilename(filename, verbose=False):
 
     """
 
-    fname_patt = "(?P<product>)-(?P<itype>[aV])"
+    fname_patt = "(?P<product>[qom]\w\w\w)-(?P<itype>[aV])"
     fname_patt = fname_patt + "-(?P<region>\w\w\w)(?P<year>\d\d)"
     fname_patt = fname_patt + "-(?P<doy_start>\d\d\d)"
     fname_patt = fname_patt + "-(?P<doy_end>\d\d\d)\."
