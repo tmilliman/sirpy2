@@ -27,9 +27,10 @@ def sirstring(a,cnt):
 
     
 def printsirhead(head):
-    """printsirhead(head)
+    """
+    printsirhead(head)
 
- prints information from the SIR file header info array from loadsir
+    prints information from the SIR file header info array from loadsir
 
     INPUTS:
         head:       scaled header information block
@@ -45,8 +46,8 @@ def printsirhead(head):
     a0     = head[7]
     b0     = head[8]
 
-    ioff=np.int(head[9])
-    iscale=np.int(head[10])
+    ioff = np.int(head[9])
+    iscale = np.int(head[10])
     nhead = np.int(head[40])
     if nhtype == 1:
         nhead = 1
@@ -99,20 +100,39 @@ def printsirhead(head):
         xgrid_max = (a0 + nsx/ascale) * 1000.
         ygrid_min = b0 * 1000
         ygrid_max = (b0 + nsy/bscale) * 1000.
-        proj4_string_1 = "datum=wgs84 + proj=laea + lat_0={} "
-        proj4_string_1 = proj4_string_1.format(latitude_of_projection_origin)
-        proj4_string_2 = "lon_0={} +k=1 +x_0=0 + y_0=0 "
-        proj4_string_2 = proj4_string_2.format(longitude_of_projection_origin)
-        proj4_string_3 = "+a={:.3f} +rf={:.3f} +units=m +no_defs "
-        proj4_string_3 = proj4_string_3.format(semimajor_radius, 50000000.)
-        proj4_string_4 = "-a_ullr {:.3f} {:.3f} {:.3f} {:.3f}"
-        proj4_string_4 = proj4_string_4.format(xgrid_min, ygrid_min,
-                                               xgrid_max, ygrid_max)
-        proj4_string = proj4_string_1 + proj4_string_2 + \
-            proj4_string_3 + proj4_string_4
 
-        print("  Proj4 string:", proj4_string)
+        # calculate local radius used for projection following
+        # that used in latlon2pix.py
+        if iopt == 2:
+            radearth = 6378.135       # equitorial earth radius
+            dtr = 3.141592654/180.0
+            orglon = xdeg
+            orglon1 = np.mod(orglon+720.0,360.0)
+            orglat = ydeg
+            era = (1.0-1.0/f)
+            eradearth = radearth*era/np.sqrt(era*era*np.cos(orglat*dtr)**2+np.sin(orglat*dtr)**2)
+
+        proj4_string_1 = "+proj=laea +lat_0={} "
+        proj4_string_1 = proj4_string_1.format(latitude_of_projection_origin)
+        proj4_string_2 = "+lon_0={} +k=1 +x_0=0 +y_0=0 "
+        proj4_string_2 = proj4_string_2.format(longitude_of_projection_origin)
+        # proj4_string_3 = "+a={:.3f} +rf={:.3f} +units=m +no_defs "
+        # proj4_string_3 = proj4_string_3.format(semimajor_radius, 50000000.)
+        proj4_string_3 = "+R={:.3f} +units=m +no_defs "
+        proj4_string_3 = proj4_string_3.format(eradearth*1000)
         
+        proj4_string_4 = "-a_ullr {:.3f} {:.3f} {:.3f} {:.3f}"
+        proj4_string_4 = proj4_string_4.format(xgrid_min, ygrid_max,
+                                               xgrid_max, ygrid_min)
+    
+        proj4_string = proj4_string_1 + proj4_string_2 + \
+            proj4_string_3 
+
+        
+        
+        print("  PROJ4 string:", proj4_string)
+        print("  GeoTransform:" , proj4_string_4)
+
     elif iopt==5:               # polar stereographic
         print ("Polar Stereographic form (%d)" % iopt)
         print ("  x,y scale: (km/pix) %f %f  %d" % (ascale, bscale, iscale_sc))

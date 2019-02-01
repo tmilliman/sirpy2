@@ -7,7 +7,7 @@ Revised on Apr 7, 2017 + include EASE2 support
 from __future__ import division
 from numpy import cos, sin, tan, mod, sqrt, all
 import numpy as np
-from ease2helper import ease2_map_info, easeconv_normalize_degrees
+# from ease2helper import ease2_map_info, easeconv_normalize_degrees
 
 def latlon2pix(alon, alat, head):
     """Latitude/longitude to pixels
@@ -16,7 +16,7 @@ def latlon2pix(alon, alat, head):
     Convert a lat,lon coordinate (lon,lat) to an image pixel location
     (x,y) (in floating point, matlab convention).
     To compute integer pixel indices (ix,iy): check to insure
-    1 <= x < nsx+1 and 1 <= x < nsx+1 then ix=floor(x) iy=floor(y)
+    1 <= x < nsx+1 and 1 <= y < nsy+1 then ix=floor(x) iy=floor(y)
 
     INPUTS:
         lon,lat - longitude, latitude
@@ -103,12 +103,14 @@ def lambert1(lat,lon,orglat,orglon,iopt):
     #
     # compute local radius of the earth at center of image
     #
-    eradearth = 6378.0         # use fixed nominal value
+    # eradearth = 6378.0         # use fixed nominal value
+    eradearth = radearth
     if iopt==2:                # local radius
         era = (1.0-1.0/f)
         eradearth = radearth*era/sqrt(era*era*cos(orglat*dtr)**2+sin(orglat*dtr)**2)
         
-    denom = 1.0+sin(orglat*dtr)*sin(lat*dtr) + cos(orglat*dtr)*cos(lat*dtr)*cos(dtr*(lon1-orglon1))
+    denom = 1.0+sin(orglat*dtr)*sin(lat*dtr) + \
+        cos(orglat*dtr)*cos(lat*dtr)*cos(dtr*(lon1-orglon1))
     if all(denom>0.0): 
         ak = sqrt(2.0/denom)
     else:
@@ -116,7 +118,8 @@ def lambert1(lat,lon,orglat,orglon,iopt):
         ak = 1.0
     
     x = ak*cos(lat*dtr)*sin(dtr*(lon1-orglon1))
-    y = ak*(cos(dtr*orglat)*sin(dtr*lat) - sin(dtr*orglat)*cos(dtr*lat)*cos(dtr*(lon1-orglon1)))
+    y = ak*(cos(dtr*orglat)*sin(dtr*lat) - \
+            sin(dtr*orglat)*cos(dtr*lat)*cos(dtr*(lon1-orglon1)))
     x = x*eradearth
     y = y*eradearth
     return x,y

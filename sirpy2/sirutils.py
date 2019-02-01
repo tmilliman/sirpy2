@@ -82,8 +82,8 @@ def fn2dt(filename):
     if fndict is not None:
         center_doy = np.mean([float(fndict['doy_start']),
                              float(fndict['doy_end'])])
-        fndt = dt.datetime(fndict['year'], 1, 1, 0, 0, 0) + \
-            dt.timedelta(days=center_doy-1)
+        fndt = dt.datetime(int(fndict['year']), 1, 1, 0, 0, 0) + \
+            dt.timedelta(days=fndict['doy_start']-1)
     else:
         fndt = None
 

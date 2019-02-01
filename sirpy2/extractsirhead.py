@@ -78,7 +78,8 @@ def extractsirhead(head):
     ndes = np.int(head[41])
     ldes = np.int(head[42])
     nia = np.int(head[43])
-    idatatype=np.int(head[47])
+    idatatype = np.int(head[47])
+    nodata = head[48]
     
     iscale_sc = np.int(head[30])
     ixdeg_off = np.int(head[126])
@@ -97,25 +98,41 @@ def extractsirhead(head):
         latitude_of_projection_origin = ydeg
         longitude_of_projection_origin = xdeg
         latitude_of_true_scale = ydeg
+
+        # calculate local radius used for projection following
+        # code used in latlon2pix.py
+        eradearth = semimajor_radius
+        radearth = 6378.135       # equitorial earth radius
+        dtr = 3.141592654/180.0
+        orglon = xdeg
+        orglon1 = np.mod(orglon+720.0,360.0)
+        orglat = ydeg
+        era = (1.0-1.0/f)
+        eradearth = radearth*era/np.sqrt(era*era*np.cos(orglat*dtr)**2+np.sin(orglat*dtr)**2)
+        
         iascale = 1./ascale
         ibscale = 1./bscale
         xgrid_min = a0 * 1000.
         xgrid_max = (a0 + nsx/ascale) * 1000.
         ygrid_min = b0 * 1000
         ygrid_max = (b0 + nsy/bscale) * 1000.
-        proj4_string_1 = "datum=wgs84 +proj=laea +lat_0={} "
+        proj4_string_1 = "+proj=laea +lat_0={} "
         proj4_string_1 = proj4_string_1.format(latitude_of_projection_origin)
         proj4_string_2 = "+lon_0={} +k=1 +x_0=0 +y_0=0 "
         proj4_string_2 = proj4_string_2.format(longitude_of_projection_origin)
-        proj4_string_3 = "+a={:.3f} +b={:.3f} +rf={:.3f} +units=m +no_defs "
-        proj4_string_3 = proj4_string_3.format(semimajor_radius,
-                                               semiminor_radius, 50000000.)
+        # proj4_string_3 = "+a={:.3f} +rf={:.3f} +units=m +no_defs "
+        # proj4_string_3 = proj4_string_3.format(semimajor_radius, 500000000.)
+        proj4_string_3 = "+R={:.3f} +units=m +no_defs "
+        proj4_string_3 = proj4_string_3.format(eradearth*1000)
         proj4_string_4 = "+a_ullr {:.3f} {:.3f} {:.3f} {:.3f}"
-        proj4_string_4 = proj4_string_4.format(xgrid_min, ygrid_min,
-                                               xgrid_max, ygrid_max)
+        proj4_string_4 = proj4_string_4.format(xgrid_min, ygrid_max,
+                                               xgrid_max, ygrid_min)
         proj4_string = proj4_string_1 + proj4_string_2 + \
-            proj4_string_3 + proj4_string_4
+            proj4_string_3
 
+
+        geoTransform = proj4_string_4
+        
     sensor = sirstring(head[19:39], 20)
     datatype = sirstring(head[57:79], 22)
 
@@ -144,6 +161,7 @@ def extractsirhead(head):
         'ndes': ndes,
         'ldes': ldes,
         'nia': nia,
+        'nodata': nodata,
         'idatatype': idatatype,
         'iscale': iscale,
         'ixdeg_off': ixdeg_off,
@@ -160,7 +178,8 @@ def extractsirhead(head):
         'xgrid_max': xgrid_max,
         'ygrid_min': ygrid_min,
         'ygrid_max': ygrid_max,
-        'proj4_string': proj4_string}
+        'proj4_string': proj4_string,
+        'geotransform': geoTransform}
 
     return header_dict
     
