@@ -14,6 +14,8 @@ import sys
 
 REGIONS = {
     1: 'Ama',
+    2: 'NAm',
+    203: 'Ala',
     204: 'CAm',
     205: 'NAm',
     206: 'SAm',
@@ -24,7 +26,8 @@ REGIONS = {
     211: 'SAs',
     212: 'ChJ',
     213: 'Ind',
-    214: 'Aus'}
+    214: 'Aus',
+    256: 'Ber'}
 
 
 def sirstring(a,cnt):
