@@ -31,6 +31,19 @@ def parseFilename(filename, verbose=False):
     =====
     quev = "all passes, egg reconstruction, v-polarization
 
+    ERS-1,2
+    =======
+    ers1 = "ers1 reconstruction using Hamming window spatial response"
+    ers2 = "ers2 reconstruction using Hamming window spatial response"
+
+    NSCAT
+    =====
+    nscv
+    nsch
+
+    Seasat
+    ======
+    sasv = "all passes vertical polarization"
 
     Image classes:
 
@@ -49,7 +62,7 @@ def parseFilename(filename, verbose=False):
 
     """
 
-    fname_patt = "(?P<product>[qom]\w\w\w)-(?P<itype>[aV])"
+    fname_patt = "(?P<product>[qomens]\w\w\w)-(?P<itype>[aV])"
     fname_patt = fname_patt + "-(?P<region>\w\w\w)(?P<year>\d\d)"
     fname_patt = fname_patt + "-(?P<doy_start>\d\d\d)"
     fname_patt = fname_patt + "-(?P<doy_end>\d\d\d)\."
