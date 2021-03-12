@@ -26,7 +26,7 @@ def parseFilename(filename, verbose=False):
     mmfa = "morning passes only"
     mnfa = "mid-day passes only"
     mefa = "evening passes only"
-    
+
     qscat
     =====
     quev = "all passes, egg reconstruction, v-polarization
@@ -62,30 +62,32 @@ def parseFilename(filename, verbose=False):
 
     """
 
-    fname_patt = "(?P<product>[qomens]\w\w\w)-(?P<itype>[aV])"
-    fname_patt = fname_patt + "-(?P<region>\w\w\w)(?P<year>\d\d)"
-    fname_patt = fname_patt + "-(?P<doy_start>\d\d\d)"
-    fname_patt = fname_patt + "-(?P<doy_end>\d\d\d)\."
+    fname_patt = r"(?P<product>[qomens]\w\w\w)-(?P<itype>[aV])"
+    fname_patt = fname_patt + r"-(?P<region>\w\w\w)(?P<year>\d\d)"
+    fname_patt = fname_patt + r"-(?P<doy_start>\d\d\d)"
+    fname_patt = fname_patt + r"-(?P<doy_end>\d\d\d)\."
 
     m = re.match(fname_patt, filename)
     if m is not None:
-        year2 = int(m.group('year'))
-        if (year2 > 80):
+        year2 = int(m.group("year"))
+        if year2 > 80:
             year4 = year2 + 1900
         else:
             year4 = 2000 + year2
-        fparts = {'product': m.group('product'),
-                  'itype': m.group('itype'),
-                  'region': m.group('region'),
-                  'year': year4,
-                  'doy_start': int(m.group('doy_start')),
-                  'doy_end': int(m.group('doy_end'))}
+        fparts = {
+            "product": m.group("product"),
+            "itype": m.group("itype"),
+            "region": m.group("region"),
+            "year": year4,
+            "doy_start": int(m.group("doy_start")),
+            "doy_end": int(m.group("doy_end")),
+        }
         return fparts
     else:
         return None
 
 
-def fn2dt(filename):
+def fn2dt(filename, date_flag="start"):
     """
     Parse filename and return a datetime object for the middle
     of the doy range.
@@ -93,22 +95,27 @@ def fn2dt(filename):
 
     fndict = parseFilename(filename)
     if fndict is not None:
-        center_doy = np.mean([float(fndict['doy_start']),
-                             float(fndict['doy_end'])])
-        fndt = dt.datetime(int(fndict['year']), 1, 1, 0, 0, 0) + \
-            dt.timedelta(days=fndict['doy_start']-1)
+        if date_flag == "start":
+            doy = fndict["doy_start"]
+        elif date_flag == "center":
+            doy = int(np.mean([float(fndict["doy_start"]), float(fndict["doy_end"])]))
+
+        fndt = dt.datetime(int(fndict["year"]), 1, 1, 0, 0, 0) + dt.timedelta(
+            days=(doy - 1)
+        )
     else:
         fndt = None
 
     return fndt
-    
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
 
     """
     If invoked on the command line run tests."
     """
 
-    filename = 'msfa-a-NAm07-001-005.sir'
+    filename = "msfa-a-NAm07-001-005.sir"
     fparts = parseFilename(filename)
 
     print(fparts)
