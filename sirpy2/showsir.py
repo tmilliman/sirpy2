@@ -11,10 +11,12 @@ Plots a SIR image from a SIR file using header-default scaling
 # Imports
 import os
 import sys
+import argparse
 import numpy as np
 from matplotlib import pyplot as plt
-from loadsir import loadsir
-from printsirhead import printsirhead
+
+from .loadsir import loadsir
+from .printsirhead import printsirhead
 
 
 # Export function definition
@@ -57,11 +59,21 @@ def showsir(sir_fname):
     plt.ylabel("y")
 
 
-def main(sir_fname):
+def main():
+
+    parser = argparse.ArgumentParser(description="Print summary of SIR header values")
+
+    # positional arguments
+    parser.add_argument("filename", help="SIR filename")
+
+    # get arguments
+    args = parser.parse_args()
+
+    sir_fname = args.filename
     sir = showsir(sir_fname)
     plt.show()
     return sir
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main()

@@ -10,8 +10,11 @@ default vmin/vmax values in file header
 # Imports
 import os
 import sys
+import argparse
+
 import numpy as np
-from loadsir import loadsir
+
+from .loadsir import loadsir
 import png as png  # PyPng module
 from matplotlib import pyplot as plt
 
@@ -58,25 +61,62 @@ def sir2png(sir_fname, png_fname, vmin=0, vmax=0):
     print("png file %s created from %s" % (png_fname, sir_fname))
 
 
-def main(argv):  # pass in a filenaem as argument
+def main():  # pass in a filename as argument
+
+    """
+    convert SIR file to a PNG image
+    """
+
+    parser = argparse.ArgumentParser(description="Convert SIR file to PNG image")
+
+    # options
+    parser.add_argument(
+        "--verbose", "-v", help="Verbose output", action="store_true", default=False
+    )
+
+    parser.add_argument(
+        "--vmin", help="minimum value", nargs=1, default=0.0, type=float
+    )
+
+    parser.add_argument(
+        "--vmax", help="maximum value", nargs=1, default=0.0, type=float
+    )
+
+    parser.add_argument("--outfile", "-o", help="Output PNG filename", nargs=1)
+
+    # positional arguments
+    parser.add_argument("sirfile", help="Input SIR filename")
+
+    # get arguments
+    args = parser.parse_args()
+    verbose = args.verbose
+    vmin = args.vmin
+    vmax = args.vmax
+    sir_path = args.sirfile
+    sir_file = os.path.basename(sir_path)
+    sir_base, sir_ext = os.path.splitext(sir_file)
+    if args.outfile is not None:
+        outfile = args.outfile
+    else:
+        outfile = sir_base + ".png"
+
+    if verbose:
+        print("verbose: {}".format(verbose))
+        print("vmin: {}".format(vmin))
+        print("vmax: {}".format(vmax))
+        print("SIR file: {}".format(sir_file))
+        print("PNG file: {}".format(outfile))
+
     vmin = 0
     vmax = 0
-    if len(argv) > 1:
-        sir_fname = argv[1]
-        if len(argv) > 2:
-            png_fname = argv[2]
-            if len(argv) > 4:
-                vmin = float(argv[3])
-                vmax = float(argv[4])
-        else:
-            png_fname = sir_fname + ".png"
-    else:  # no argument?, use a test image
-        sir_fname = "greeni.sir"
-        # sir_fname = 'queh-a-E2N04-10-10.sir'
-        png_fname = sir_fname + ".png"
 
-    sir2png(sir_fname, png_fname, vmin=vmin, vmax=vmax)
+    # else:  # no argument?, use a test image
+    #     sir_fname = "greeni.sir"
+    #     # sir_fname = 'queh-a-E2N04-10-10.sir'
+    #     png_fname = sir_fname + ".png"
+
+    sir2png(sir_path, outfile, vmin=vmin, vmax=vmax)
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()

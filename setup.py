@@ -52,5 +52,11 @@ setup(
         # eg:
         "rst": ["docutils>=0.11"],
     },
-    entry_points={"console_scripts": ["printsirhead=sirpy2.printsirhead:main"]},
+    entry_points={
+        "console_scripts": [
+            "printsirhead=sirpy2.printsirhead:main",
+            "showsir=sirpy2.showsir:main",
+            "sir2png=sirpy2.sir2png:main",
+        ]
+    },
 )

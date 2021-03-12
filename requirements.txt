@@ -2,3 +2,4 @@ nose
 sphinx
 numpy
 pytest
+pypng
