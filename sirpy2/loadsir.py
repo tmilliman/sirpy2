@@ -16,7 +16,7 @@ def loadsir(filename):
     - or -
     function SIR=loadsir('filename')
 
-    load a sirf image into matlab.  Also sets global variables
+    load a sirf image file.  Also sets global variables
     containing the image transformation information from file header
 
     image:      image array

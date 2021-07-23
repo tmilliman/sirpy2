@@ -13,3 +13,12 @@ def test_fn2dt():
     assert result.year == 2007
     assert result.month == 6
     assert result.day == 30
+
+
+def test_parseFilename():
+    fname = "msfa-V-NAm07-181-185.sir"
+    fparts = sirpy2.parseFilename(fname)
+    assert fparts["product"] == "msfa"
+    assert fparts["itype"] == "V"
+    assert fparts["region"] == "NAm"
+    assert fparts["year"] == 2007
