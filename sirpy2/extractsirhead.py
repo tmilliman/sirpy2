@@ -16,6 +16,7 @@ import sys
 REGIONS = {
     1: "Ama",
     2: "NAm",
+    202: "Grn",
     203: "Ala",
     204: "CAm",
     205: "NAm",
