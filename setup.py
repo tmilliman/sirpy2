@@ -47,7 +47,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    install_requires=["numpy>=1.13.0", "matplotlib>=1.5.3", "pypng>=0.2.0"],
+    install_requires=["numpy>=1.13.0", "matplotlib>=1.5.3", "pypng>=0.0.20"],
     extras_require={
         # eg:
         "rst": ["docutils>=0.11"],
