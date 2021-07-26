@@ -1,0 +1,11 @@
+name: sirpy
+channels:
+  - conda-forge
+  - intel
+  - defaults
+dependencies:
+  - python=3.9
+  - matplotlib
+  - numpy
+  - gdal
+  - pytest

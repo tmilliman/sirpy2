@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 """
 Created on Sep 21, 2011
 Revised on Apr 7, 2017 + include EASE2 support
@@ -29,7 +30,8 @@ def save_it(fname, img_dir="."):
 
 # Display the contents of a sir image file
 def showsir(sir_fname):
-    """ Plots a sir image
+    """
+    Plots a sir image
 
     INPUTS:
       sir_fname: the SIR file name.
@@ -41,7 +43,8 @@ def showsir(sir_fname):
 
     # Load in the SIR image
     sir = loadsir(sir_fname)
-    # sir[0] is the image array; sir[1] is the header; sir[2]=iaopt; sir[3]=descript
+    # sir[0] is the image array; sir[1] is the header; sir[2]=iaopt;
+    # sir[3]=descript
 
     print("File name: ", sir_fname)
     printsirhead(sir[1])
@@ -61,7 +64,7 @@ def showsir(sir_fname):
 
 def main():
 
-    parser = argparse.ArgumentParser(description="Print summary of SIR header values")
+    parser = argparse.ArgumentParser(description="Display SIR images file.")
 
     # positional arguments
     parser.add_argument("filename", help="SIR filename")

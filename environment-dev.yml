@@ -1,0 +1,15 @@
+name: sirpy-dev
+channels:
+  - conda-forge
+  - intel
+  - defaults
+dependencies:
+  - python=3.9
+  - matplotlib
+  - numpy
+  - gdal
+  - pytest
+  - sphinx
+  - black
+  - pre-commit
+  - flake8
