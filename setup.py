@@ -15,7 +15,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 
-with open("README.rst") as f:
+with open("README.md") as f:
     readme = f.read()
 
 with open("LICENSE") as f:
@@ -57,6 +57,7 @@ setup(
             "printsirhead=sirpy2.printsirhead:main",
             "showsir=sirpy2.showsir:main",
             "sir2png=sirpy2.sir2png:main",
+            "sir2geotiff=sirpy2.sir2geotiff:main",
         ]
     },
 )
