@@ -14,6 +14,8 @@ import numpy as np
 from osgeo import gdal, osr
 import sirpy2 as sp2
 
+DATADIR = "/Volumes/data/PNAS2/data_sources/BYU-MERS/data"
+
 
 def main():
 
@@ -81,22 +83,22 @@ def main():
         print("No Data Value: {}".format(nodata_value))
 
     if sensor.startswith("ASCAT-A"):
-        datadir = "/Volumes/data/PNAS2/data_sources/BYU-MERS/data/ascat"
+        datadir = "{}/ascat".format(DATADIR)
         landmask_file = "msf-{}.sir.lmask".format(region)
     elif sensor.startswith("OSCAT"):
-        datadir = "/Volumes/data/PNAS2/data_sources/BYU-Mers/data/oscat"
+        datadir = "{}/oscat".format(DATADIR)
         landmask_file = "oue-{}.sir.lmask".format(region)
     elif sensor.startswith("QuikScat L1B"):
-        datadir = "/Volumes/data/PNAS2/data_sources/BYU-Mers/data/qscatv2"
+        datadir = "{}/qscatv2".format(DATADIR)
         landmask_file = "que-{}.sir.lmask".format(region)
     elif sensor.startswith("ERS-1/2"):
-        datadir = "/Volumes/data/PNAS2/data_sources/BYU-Mers/data/ers"
+        datadir = "{}/ers".format(DATADIR)
         landmask_file = "ers-{}.sir.lmask".format(region)
     elif sensor.startswith("NSCAT"):
-        datadir = "/Volumes/data/PNAS2/data_sources/BYU-Mers/data/nscat"
+        datadir = "{}/nscat".format(DATADIR)
         landmask_file = "nsc-{}.sir.lmask".format(region)
     elif sensor.startswith("SASS"):
-        datadir = "/Volumes/data/PNAS2/data_sources/BYU-Mers/data/sass"
+        datadir = "{}/sass".format(DATADIR)
         landmask_file = "sas-{}.sir.lmask".format(region)
     else:
         datadir = ""
