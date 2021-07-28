@@ -14,7 +14,7 @@ import numpy as np
 from osgeo import gdal, osr
 import sirpy2 as sp2
 
-DATADIR = "/Volumes/data/PNAS2/data_sources/BYU-MERS/data"
+DATADIR = "."
 
 
 def main():
@@ -83,26 +83,28 @@ def main():
         print("No Data Value: {}".format(nodata_value))
 
     if sensor.startswith("ASCAT-A"):
-        datadir = "{}/ascat".format(DATADIR)
+        # datadir = "{}/ascat".format(DATADIR)
         landmask_file = "msf-{}.sir.lmask".format(region)
     elif sensor.startswith("OSCAT"):
-        datadir = "{}/oscat".format(DATADIR)
+        # datadir = "{}/oscat".format(DATADIR)
         landmask_file = "oue-{}.sir.lmask".format(region)
     elif sensor.startswith("QuikScat L1B"):
-        datadir = "{}/qscatv2".format(DATADIR)
+        # datadir = "{}/qscatv2".format(DATADIR)
         landmask_file = "que-{}.sir.lmask".format(region)
     elif sensor.startswith("ERS-1/2"):
-        datadir = "{}/ers".format(DATADIR)
+        # datadir = "{}/ers".format(DATADIR)
         landmask_file = "ers-{}.sir.lmask".format(region)
     elif sensor.startswith("NSCAT"):
-        datadir = "{}/nscat".format(DATADIR)
+        # datadir = "{}/nscat".format(DATADIR)
         landmask_file = "nsc-{}.sir.lmask".format(region)
     elif sensor.startswith("SASS"):
-        datadir = "{}/sass".format(DATADIR)
+        # datadir = "{}/sass".format(DATADIR)
         landmask_file = "sas-{}.sir.lmask".format(region)
     else:
-        datadir = ""
+        errmsg = "Unknown sensor"
+        raise ValueError(errmsg)
 
+    datadir = DATADIR
     landmask_dir = os.path.join(datadir, "info", "landmasks")
     if verbose:
         print("Data directory: {}".format(datadir))
@@ -123,21 +125,21 @@ def main():
     # 3) multiply sig0 image by landmask
     # 4) convert NaNs to -9999
 
-    # 1)
+    # 1) change nodata values to NaNs
     image[image == nodata_value] = np.nan
 
-    # 2)
+    # 2) change landmask 0's to NaNs
     mimage = mimage.round()
     mimage[mimage == 0] = np.nan
 
     # 3) apply land mask
     masked_image = np.multiply(image, mimage)
 
-    # 4)
+    # 4) convert NaNs to -9999
     nodata_value = -9999.0
     masked_image[np.isnan(masked_image)] = nodata_value
 
-    # finally, save as a geotiff
+    # finally, save data as a geotiff using GDAL library routines
     format = "GTiff"
     driver = gdal.GetDriverByName(format)
     src_filename = os.path.basename(infile)
