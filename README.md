@@ -19,34 +19,29 @@ To work with the images using utilities like GDAL or with GIS programs
 like QGIS which do handle other data types I wanted to have the full
 range data values in the GeoTIFF files.
 
-## Requirements
+## System Requirements
 
-The python scripts are designed to be run with data directories organized
-along the same lines as is used when downloading data from the SCP.  As
-an example for QuikSCAT path for the 4-day quev "a" image starting on day
-201 of 1999 would be:
-
-    data/qscatv2/1999/sir/quev/NAm/201/a/quev-a-NAm99-201-204.sir.gz
-
-***The paths used are hardcoded into the scripts and will probably need to
-be modified for local use.***
+The sir2geotiff utility uses the GDAL python binding.  To build this
+python binding you will need to have the GDAL library installed and
+the gdal library header files available.  This is usually done at a
+system level and the procedure depends on the operating system used.
 
 ## Python Virtual Environments
 
-All development and use of these scripts was done using virtual environments
-on computers running a unix-like (linux or OSX).  To set up a local
-environment for using the script you can set up a virtual environment
-either using python native virtual environments (or virtualenv) or
-the equivalent conda/anaconda virtual environments.
+All development and use of these scripts was done using virtual
+environments on computers running a unix-like (linux or OSX).  To set
+up a local environment for using the script you can set up a virtual
+environment either using python native virtual environments (or
+virtualenv) or the equivalent conda/anaconda virtual environments.
 
 ### Using Python's venv module
 
-To setup the virtual environment in the directory where you have extracted
-the git repository:
+To setup and activate the virtual environment in the directory where
+you have extracted the git repository:
 
     python3 -m venv .venv
     . .venv/bin/activate
-    pip install -r requirements.txt
+    python -m pip install git+https://github.com/tmilliman/sirpy2.git 
 
 
 ### Using conda based environments
