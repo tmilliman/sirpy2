@@ -9,5 +9,4 @@ dependencies:
   - numpy
   - gdal
   - pytest
-  - pip:
-      - "--editable=git+https://github.com/tmilliman/sirpy2.git#egg=sirpy2-master"
+  - pip

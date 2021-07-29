@@ -21,11 +21,6 @@ range data values in the GeoTIFF files.
 
 ## System Requirements
 
-The sir2geotiff utility uses the GDAL python binding.  To build this
-python binding you will need to have the GDAL library installed and
-the gdal library header files available.  This is usually done at a
-system level and the procedure depends on the operating system used.
-
 ## Python Virtual Environments
 
 All development and use of these scripts was done using virtual
@@ -34,20 +29,35 @@ up a local environment for using the script you can set up a virtual
 environment either using python native virtual environments (or
 virtualenv) or the equivalent conda/anaconda virtual environments.
 
-### Using Python's venv module
+### Using Python's venv module and pip
 
-To setup and activate the virtual environment in the directory where
-you have extracted the git repository:
+The sir2geotiff utility uses the GDAL python binding.  To build this
+python binding in a virtual environment you will need to have the GDAL
+library installed and the gdal library header files available.  This
+is usually done at a system level and the procedure depends on the
+operating system used.  Once the GDAL system libraries are installed
+you can create a virtualenv, activate and install the sirpy2 package
+by doing the following:
 
     python3 -m venv .venv
     . .venv/bin/activate
     python -m pip install git+https://github.com/tmilliman/sirpy2.git 
 
+To test the installation you can issue the following command:
+
+   sir2geotiff --help
+   
 
 ### Using conda based environments
 
 You can find documentation on using conda environments at
 [https://docs.conda.io/en/latest/](https://docs.conda.io/en/latest/)
-Again in the directory where you have extracted the git repository:
+In the directory where you have extracted the sirpy2 git repository
+you can create a conda environment, activate it and install the sirpy2
+package by doing the following:
 
     conda env create --file environment.yml
+    conda activate sirpy
+    python -m pip install git+https://github.com/tmilliman/sirpy2.git
+
+
