@@ -14,8 +14,6 @@ import numpy as np
 from osgeo import gdal, osr
 import sirpy2 as sp2
 
-DATADIR = "."
-
 
 def main():
 
@@ -30,16 +28,25 @@ def main():
         default=False,
     )
 
+    parser.add_argument(
+        "-d",
+        "--datadir",
+        help=("data directory for output and finding landmask files"),
+        default="./",
+    )
+
     # positional args
     parser.add_argument("infile", help="Input .sir file")
 
     args = parser.parse_args()
     verbose = args.verbose
     infile = args.infile
+    datadir = args.datadir
 
     if verbose:
         print("verbose: {}".format(verbose))
         print("input file: {}".format(infile))
+        print("data directory: {}".format(datadir))
 
     # load sir file
     [image, head, descrip, iaopt] = sp2.loadsir(infile)
@@ -71,6 +78,10 @@ def main():
     if sensor == "ERS-1/2":
         fparts = sp2.parseFilename(os.path.basename(infile))
         region = fparts["region"]
+    if sensor == "QuikScat L1B":
+        fparts = sp2.parseFilename(os.path.basename(infile))
+        product = fparts["product"]
+        region = fparts["region"]
     else:
         region = hd["region"]
 
@@ -82,29 +93,26 @@ def main():
         print("Region: {}".format(region))
         print("No Data Value: {}".format(nodata_value))
 
+    # set name of landmask file based on sensor from filename
     if sensor.startswith("ASCAT-A"):
-        # datadir = "{}/ascat".format(DATADIR)
         landmask_file = "msf-{}.sir.lmask".format(region)
     elif sensor.startswith("OSCAT"):
-        # datadir = "{}/oscat".format(DATADIR)
         landmask_file = "oue-{}.sir.lmask".format(region)
     elif sensor.startswith("QuikScat L1B"):
-        # datadir = "{}/qscatv2".format(DATADIR)
-        landmask_file = "que-{}.sir.lmask".format(region)
+        if product[2] == "e":
+            landmask_file = "que-{}.sir.lmask".format(region)
+        elif product[2] == "s":
+            landmask_file = "qus-{}.sir.lmask".format(region)
     elif sensor.startswith("ERS-1/2"):
-        # datadir = "{}/ers".format(DATADIR)
         landmask_file = "ers-{}.sir.lmask".format(region)
     elif sensor.startswith("NSCAT"):
-        # datadir = "{}/nscat".format(DATADIR)
         landmask_file = "nsc-{}.sir.lmask".format(region)
     elif sensor.startswith("SASS"):
-        # datadir = "{}/sass".format(DATADIR)
         landmask_file = "sas-{}.sir.lmask".format(region)
     else:
         errmsg = "Unknown sensor"
         raise ValueError(errmsg)
 
-    datadir = DATADIR
     landmask_dir = os.path.join(datadir, "info", "landmasks")
     if verbose:
         print("Data directory: {}".format(datadir))

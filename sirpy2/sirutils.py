@@ -30,6 +30,7 @@ def parseFilename(filename, verbose=False):
     qscat
     =====
     quev = "all passes, egg reconstruction, v-polarization
+    qusv = "all passes, slice reconstruction, v-polarization
 
     ERS-1,2
     =======

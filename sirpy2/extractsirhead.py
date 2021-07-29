@@ -13,9 +13,13 @@ from .printsirhead import printsirhead
 import numpy as np
 import sys
 
+# see https://www.scp.byu.edu/docs/pdf/QscatReport6.pdf for
+# region definitions
 REGIONS = {
     1: "Ama",
     2: "NAm",
+    100: "Ant",
+    110: "Arc",
     202: "Grn",
     203: "Ala",
     204: "CAm",
@@ -95,8 +99,14 @@ def extractsirhead(head):
     i0_sc = int(head[255])
 
     proj4_string = None
-    if iopt == 2:
-        # create proj4 string for projection
+
+    if iopt != 2:
+        errmsg = ("Only Lambert Equal Area Projections are " +
+                  "supported.\n")
+        raise ValueError(errmsg)
+
+    elif iopt == 2:
+        # create proj4 string for lambert equal area projection
         semimajor_radius = 6378135.0
         f = 298.260
         semiminor_radius = semimajor_radius * (1.0 - 1.0 / f)
