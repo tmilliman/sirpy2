@@ -140,5 +140,6 @@ of the repository.
 
      results in a pop window as shown below
 
+     <img src="https://github.com/tmilliman/sirpy2/blob/master/docs/showsir_figure.png">
      
 [showsir preview image](https://github.com/tmilliman/sirpy2/blob/master/docs/showsir_figure.png)
