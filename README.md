@@ -119,4 +119,25 @@ of the repository.
        Title: SIR A image of north-ame
        Tag: (c) 2014 BYU MERS Laboratory
        Creator: BYU MERS:ascat_meta_sir3 version 0.12 Priors=0
-       Created: 2015-08-05 07:10:42-0600     
+       Created: 2015-08-05 07:10:42-0600
+
+
+### `showsir`
+
+    usage: showsir [-h] filename
+
+    Display SIR images file.
+
+    positional arguments:
+      filename    SIR filename
+
+    optional arguments:
+      -h, --help  show this help message and exit
+
+#### Example
+
+     showsir msfa-a-NAm07-181-185.sir
+
+     results in a pop window as shown below
+
+     [showsir preview image](https://github.com/tmilliman/sirpy2/docs/showsir_figure.png)
