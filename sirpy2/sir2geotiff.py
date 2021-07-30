@@ -31,7 +31,9 @@ def main():
     parser.add_argument(
         "-d",
         "--datadir",
+        nargs="?",
         help=("data directory for output and finding landmask files"),
+        const="./",
         default="./",
     )
 
@@ -57,7 +59,8 @@ def main():
     hd = sp2.extractsirhead(head)
 
     proj4_string = hd["proj4_string"]
-    print("proj4 string: {}".format(proj4_string))
+    if verbose:
+        print("proj4 string: {}".format(proj4_string))
 
     sig0_max = image.max()
     sig0_min = image.min()
@@ -93,7 +96,7 @@ def main():
         print("Region: {}".format(region))
         print("No Data Value: {}".format(nodata_value))
 
-    # set name of landmask file based on sensor from filename
+    # set name of landmask file based on sensor from file header
     if sensor.startswith("ASCAT-A"):
         landmask_file = "msf-{}.sir.lmask".format(region)
     elif sensor.startswith("OSCAT"):
@@ -175,10 +178,12 @@ def main():
     rc = csr.ImportFromProj4(proj4_string)
 
     if rc != 0:
+        sys.stderr.write("Importing PROJ4 projection failed\n")
         sys.exit(1)
     else:
         projection = csr.ExportToWkt()
-        print("Projection: {}".format(projection))
+        if verbose:
+            print("Output WKT Projection: {}".format(projection))
 
     dst_ds.SetGeoTransform(geotransform)
     dst_ds.SetProjection(projection)

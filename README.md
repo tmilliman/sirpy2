@@ -142,4 +142,122 @@ of the repository.
 
 <img src="https://github.com/tmilliman/sirpy2/blob/master/docs/showsir_figure.png">
      
-[showsir preview image](https://github.com/tmilliman/sirpy2/blob/master/docs/showsir_figure.png)
+### sir2png
+
+     usage: sir2png [-h] [--verbose] [--vmin VMIN] [--vmax VMAX] [--outfile OUTFILE] sirfile
+
+     Convert SIR file to PNG image
+
+     positional arguments:
+       sirfile               Input SIR filename
+
+     optional arguments:
+       -h, --help            show this help message and exit
+       --verbose, -v         Verbose output
+       --vmin VMIN           minimum value
+       --vmax VMAX           maximum value
+       --outfile OUTFILE, -o OUTFILE
+                        Output PNG filename
+
+#### Example
+
+    sir2png -v msfa-a-NAm07-181-185.sir
+    verbose: True
+    vmin: 0.0
+    vmax: 0.0
+    SIR file: msfa-a-NAm07-181-185.sir
+    PNG file: msfa-a-NAm07-181-185.png
+    png file msfa-a-NAm07-181-185.png created from msfa-a-NAm07-181-185.sir
+
+which results in the following png file:
+
+<img src="https://github.com/tmilliman/sirpy2/blob/master/docs/msfa-a-NAm07-181-185.png">
+
+### sir2geotiff
+
+The conversion to GeoTIFF format also applies a landmask from from the
+BYU SCP site.  The landmask files are expected to be organized as they
+are in the BYU SCP FTP directory:
+
+    ftp://ftp.scp.byu.edu/data/<instrument>/info/landmasks/<mask files>
+
+Where instrument is one of 'ers', 'qscatv2' or 'ascat'.  For example
+the landmask for the ASCAT image file `msfa-a-NAm07-181-185.sir` would
+have a path:
+
+    <data directory>/info/landmasks/msf-NAm.sir.lmask
+
+where `<data directory>` specifies both where the output geotiffs will
+be written and where the script will look for the landmask files.  The
+output GeoTIFF files are organized by region and by year in a sub-directory
+of the data dir called `geotiffs`.
+
+
+    usage: sir2geotiff [-h] [-v] [-d DATADIR] infile
+
+    convert .sir file to geoTIFF file
+
+    positional arguments:
+      infile                Input .sir file
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -v, --verbose         increase output verbosity
+      -d DATADIR, --datadir DATADIR
+                        data directory for output and finding landmask files
+
+#### Example
+
+     sir2geotiff msfa-a-NAm07-181-185.sir
+     gdalinfo -mm geotiffs/NAm/2007/msfa-a-NAm07-181-185.tif
+    Driver: GTiff/GeoTIFF
+    Files: geotiffs/NAm/2007/msfa-a-NAm07-181-185.tif
+    Size is 1890, 1150
+    Coordinate System is:
+    PROJCRS["unknown",
+        BASEGEOGCRS["unknown",
+            DATUM["unknown",
+                ELLIPSOID["unknown",6367415.828,0,
+                    LENGTHUNIT["metre",1,
+                        ID["EPSG",9001]]]],
+            PRIMEM["Greenwich",0,
+                ANGLEUNIT["degree",0.0174532925199433,
+                    ID["EPSG",9122]]]],
+        CONVERSION["Lambert Azimuthal Equal Area",
+            METHOD["Lambert Azimuthal Equal Area",
+                ID["EPSG",9820]],
+            PARAMETER["Latitude of natural origin",45,
+                ANGLEUNIT["degree",0.0174532925199433],
+                ID["EPSG",8801]],
+            PARAMETER["Longitude of natural origin",-92.5,
+                ANGLEUNIT["degree",0.0174532925199433],
+                ID["EPSG",8802]],
+            PARAMETER["False easting",0,
+                LENGTHUNIT["metre",1],
+                ID["EPSG",8806]],
+            PARAMETER["False northing",0,
+                LENGTHUNIT["metre",1],
+                ID["EPSG",8807]]],
+        CS[Cartesian,2],
+            AXIS["(E)",east,
+                ORDER[1],
+                LENGTHUNIT["metre",1]],
+            AXIS["(N)",north,
+                ORDER[2],
+                LENGTHUNIT["metre",1]]]
+    Data axis to CRS axis mapping: 1,2
+    Origin = (-4200000.000000000000000,2817500.000000000000000)
+    Pixel Size = (4450.000000000000000,-4450.000000000000000)
+    Metadata:
+      AREA_OR_POINT=Area
+    Image Structure Metadata:
+      INTERLEAVE=BAND
+    Corner Coordinates:
+    Upper Left  (-4200000.000, 2817500.000) (164d28'55.12"W, 50d27'46.01"N)
+    Lower Left  (-4200000.000,-2300000.000) (131d54'35.95"W, 15d41'34.02"N)
+    Upper Right ( 4210500.000, 2817500.000) ( 20d25'24.74"W, 50d23' 6.63"N)
+    Lower Right ( 4210500.000,-2300000.000) ( 52d59'48.39"W, 15d39' 5.12"N)
+    Center      (    5250.000,  258750.000) ( 92d25'49.14"W, 47d19'42.40"N)
+    Band 1 Block=1890x1 Type=Float32, ColorInterp=Gray
+        Computed Min/Max=-27.213,-3.510
+      NoData Value=-9999     
