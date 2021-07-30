@@ -188,9 +188,10 @@ have a path:
     <data directory>/info/landmasks/msf-NAm.sir.lmask
 
 where `<data directory>` specifies both where the output geotiffs will
-be written and where the script will look for the landmask files.  The
-output GeoTIFF files are organized by region and by year in a sub-directory
-of the data dir called `geotiffs`.
+be written and where the script will look for the landmask files.  By
+default the `<data directory>` is set to the current working
+directory.  The output GeoTIFF files are organized by region and by
+year in a sub-directory of the data dir called `geotiffs`.
 
 
     usage: sir2geotiff [-h] [-v] [-d DATADIR] infile
@@ -208,8 +209,8 @@ of the data dir called `geotiffs`.
 
 #### Example
 
-     sir2geotiff msfa-a-NAm07-181-185.sir
-     gdalinfo -mm geotiffs/NAm/2007/msfa-a-NAm07-181-185.tif
+    sir2geotiff msfa-a-NAm07-181-185.sir
+    gdalinfo -mm geotiffs/NAm/2007/msfa-a-NAm07-181-185.tif
     Driver: GTiff/GeoTIFF
     Files: geotiffs/NAm/2007/msfa-a-NAm07-181-185.tif
     Size is 1890, 1150
