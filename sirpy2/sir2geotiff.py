@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
 """
@@ -12,6 +12,8 @@ import sys
 import argparse
 import numpy as np
 from osgeo import gdal, osr
+from pathlib import Path
+
 import sirpy2 as sp2
 
 
@@ -158,6 +160,10 @@ def main():
     dst_filename = os.path.splitext(os.path.basename(src_filename))[0] + ".tif"
     dst_dir = os.path.join(datadir, "geotiffs", region, str(year))
     dst_path = os.path.join(dst_dir, dst_filename)
+
+    # create the destination directory if it doesn't already
+    # exist
+    Path(dst_dir).mkdir(parents=True, exist_ok=True)
 
     if verbose:
         print("Output file: {}".format(dst_path))
