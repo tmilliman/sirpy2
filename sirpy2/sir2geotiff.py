@@ -59,7 +59,6 @@ def main():
 
     # extract the header info
     hd = sp2.extractsirhead(head)
-    print(hd)
 
     proj4_string = hd["proj4_string"]
     if verbose:
