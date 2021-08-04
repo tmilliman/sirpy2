@@ -59,6 +59,7 @@ def main():
 
     # extract the header info
     hd = sp2.extractsirhead(head)
+    print(hd)
 
     proj4_string = hd["proj4_string"]
     if verbose:
@@ -72,18 +73,18 @@ def main():
         print("Min Value: {}".format(sig0_min))
 
     # BUG fix: It looks like for the ERS-1,2 files the header
-    # information is slightly different.  The result is the
-    # region for these files is always 2 (NAm).  So if sensor
+    # information is slightly different.  The result is the extracted
+    # region for these files is always 100 (NAm).  So if sensor
     # is "ERS-1" or "ERS-2" then extract the region from the
     # filename
 
     # read land mask for this region
     sensor = hd["sensor"]
     datatype = hd["datatype"]
-    if sensor == "ERS-1/2":
+    if sensor.startswith("ERS"):
         fparts = sp2.parseFilename(os.path.basename(infile))
         region = fparts["region"]
-    if sensor == "QuikScat L1B":
+    elif sensor == "QuikScat L1B":
         fparts = sp2.parseFilename(os.path.basename(infile))
         product = fparts["product"]
         region = fparts["region"]
