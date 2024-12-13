@@ -37,10 +37,10 @@ def printsirhead(head):
     INPUTS:
         head:       scaled header information block
     """
-    nhtype = np.int(head[4])
-    nsx = np.int(head[0])
-    nsy = np.int(head[1])
-    iopt = np.int(head[16])
+    nhtype = int(head[4])
+    nsx = int(head[0])
+    nsy = int(head[1])
+    iopt = int(head[16])
     xdeg = head[2]
     ydeg = head[3]
     ascale = head[5]
@@ -48,24 +48,24 @@ def printsirhead(head):
     a0 = head[7]
     b0 = head[8]
 
-    ioff = np.int(head[9])
-    iscale = np.int(head[10])
-    nhead = np.int(head[40])
+    ioff = int(head[9])
+    iscale = int(head[10])
+    nhead = int(head[40])
     if nhtype == 1:
         nhead = 1
 
-    # ndes = np.int(head[41])
-    # ldes = np.int(head[42])
-    # nia = np.int(head[43])
-    idatatype = np.int(head[47])
+    # ndes = int(head[41])
+    # ldes = int(head[42])
+    # nia = int(head[43])
+    idatatype = int(head[47])
 
-    iscale_sc = np.int(head[30])
-    ixdeg_off = np.int(head[126])
-    iydeg_off = np.int(head[127])
-    ideg_sc = np.int(head[168])
-    ia0_off = np.int(head[189])
-    ib0_off = np.int(head[240])
-    i0_sc = np.int(head[255])
+    iscale_sc = int(head[30])
+    ixdeg_off = int(head[126])
+    iydeg_off = int(head[127])
+    ideg_sc = int(head[168])
+    ia0_off = int(head[189])
+    ib0_off = int(head[240])
+    i0_sc = int(head[255])
 
     if iopt == -1:  # image only
         print("Image only form (%d)" % iopt)
@@ -186,7 +186,7 @@ def printsirhead(head):
             r0,
             s0,
             epsilon,
-        ) = ease2_map_info(iopt, np.int(ascale), np.int(bscale))
+        ) = ease2_map_info(iopt, int(ascale), int(bscale))
         print("  EASE2 scale: (%d %d) %f km/pix" % (ascale, bscale, map_scale * 0.001))
         print(
             "  Pixel origin: (c,r) %d %d   %d %d %d %d"
@@ -218,16 +218,16 @@ def printsirhead(head):
     print(
         "  Year: %d  Start Day: %d   Min:  %d  End Day: %d  Min: %d"
         % (
-            np.int(head[11]),
-            np.int(head[12]),
-            np.int(head[13]),
-            np.int(head[14]),
-            np.int(head[16]),
+            int(head[11]),
+            int(head[12]),
+            int(head[13]),
+            int(head[14]),
+            int(head[16]),
         )
     )
     print(
         "  Region: %d  Type: %d  Htype: %d  Nhead: %d"
-        % (np.int(head[17]), np.int(head[18]), np.int(head[4]), nhead)
+        % (int(head[17]), int(head[18]), int(head[4]), nhead)
     )
     print("  Nodata value: %f  Vmin: %f  Vmax: %f" % (head[48], head[49], head[50]))
     if idatatype == 4:
@@ -236,7 +236,7 @@ def printsirhead(head):
         print("  Datatype: byte  offset: %d  scale: %d" % (ioff, iscale))
     else:
         print("  Datatype: short  offset: %d  scale: %d" % (ioff, iscale))
-    print("  Frequency: %.2f   Polarization: %d" % (head[45], np.int(head[44])))
+    print("  Frequency: %.2f   Polarization: %d" % (head[45], int(head[44])))
     print("  Type: %s" % sirstring(head[57:79], 22))
     print("  Sensor: %s" % sirstring(head[19:39], 20))
     print("  Title: %s" % sirstring(head[128:168], 40))

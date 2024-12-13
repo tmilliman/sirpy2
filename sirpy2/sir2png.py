@@ -50,8 +50,8 @@ def sir2png(sir_fname, png_fname, vmin=0, vmax=0):
     img[img > 255] = 255
     img[img < 0] = 0
     img = np.uint8(img)
-    nsx = np.int(sir[1][0])
-    nsy = np.int(sir[1][1])
+    nsx = int(sir[1][0])
+    nsy = int(sir[1][1])
 
     # write out as greyscale png
     f = open(png_fname, "wb")
