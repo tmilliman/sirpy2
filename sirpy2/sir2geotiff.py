@@ -99,7 +99,7 @@ def main():
         print("No Data Value: {}".format(nodata_value))
 
     # set name of landmask file based on sensor from file header
-    if sensor.startswith("ASCAT-A"):
+    if sensor.startswith("ASCAT"):
         landmask_file = "msf-{}.sir.lmask".format(region)
     elif sensor.startswith("OSCAT"):
         landmask_file = "oue-{}.sir.lmask".format(region)
